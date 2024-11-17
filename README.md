@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tschuerti/nextuntis/refs/heads/main/src/logo/logofulltextbg.png" />
+  <img src="https://raw.githubusercontent.com/tschuerti/nextuntis/refs/heads/main/src/media/logofulltextbg.png" />
 </p>
 
 ##

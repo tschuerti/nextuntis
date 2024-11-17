@@ -1,0 +1,16 @@
+{
+  "name": "nextuntis",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r   <img src=\"https://raw.githubusercontent.com/tschuerti/nextuntis/refs/heads/main/src/logo/logofulltextbg.png\" />\r </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1"
+  }
+}
