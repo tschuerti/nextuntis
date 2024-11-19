@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextUntis - Login</title>
+    <link rel="icon" type="image/x-icon" href="/static/logoclockinnerbg.png">
+</head>
+<body>
+    <h1>NextUntis</h1>
+    <form action="/login" method="POST">
+        <label for="server">Server:</label>
+        <input type="text" id="server" name="server" required>
+        <br>
+
+        <label for="school">Schule:</label>
+        <input type="text" id="school" name="school" required>
+        <br>
+
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+
+        <label for="password">Passwort:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

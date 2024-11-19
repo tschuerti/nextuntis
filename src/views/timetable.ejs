@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextUntis - Stundenplan</title>
+    <link rel="icon" type="image/x-icon" href="/static/logoclockinnerbg.png">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mein Stundenplan von <%= monday.toLocaleDateString("de-DE") %> bis <%= friday.toLocaleDateString("de-DE") %></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Raum</th>
+                <th>Fach</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% timetable.forEach(lesson => { %>
+                <tr>
+                    <td>
+                        <%= new Date(lesson.date.toString().replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'))
+                            .toLocaleDateString("de-DE") %>
+                    </td>
+                    <td>
+                        <%= String(lesson.startTime).padStart(4, '0').slice(0, 2) %>:<%= String(lesson.startTime).padStart(4, '0').slice(2) %> - 
+                        <%= String(lesson.endTime).padStart(4, '0').slice(0, 2) %>:<%= String(lesson.endTime).padStart(4, '0').slice(2) %>
+                    </td>
+                    <td><%= lesson.ro ? lesson.ro.map(room => room.name).join(', ') : 'Kein Raum angegeben' %></td>
+                    <td><%= lesson.su ? lesson.su.map(subject => subject.longname).join(', ') : 'Kein Fach angegeben' %></td>
+                    <td>
+                        <% if (lesson.code === "cancelled") { %>
+                            Entfall
+                        <% } else if (lesson.info && lesson.info.toLowerCase().includes("vertretung")) { %>
+                            Vertretung
+                        <% } else { %>
+                            Regulär
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

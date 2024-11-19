@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextUntis - Stundenplan</title>
+    <link rel="icon" type="image/x-icon" href="/static/logoclockinnerbg.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at left top, #f84369, #db9533);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            padding: 20px 0;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        td {
+            font-size: 0.9em;
+        }
+        th:first-child, td:first-child {
+            background-color: #ffe5d4;
+            font-weight: bold;
+        }
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(odd) td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mein Stundenplan von <%= monday.toLocaleDateString("de-DE") %> bis <%= friday.toLocaleDateString("de-DE") %></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Uhrzeit</th>
+                <% const days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']; %>
+                <% days.forEach(function(day) { %>
+                    <th><%= day %></th>
+                <% }); %>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+                const times = Array.from(new Set(timetable.map(function(lesson) { 
+                    return `${String(lesson.startTime).padStart(4, '0').slice(0, 2)}:${String(lesson.startTime).padStart(4, '0').slice(2)} - ${String(lesson.endTime).padStart(4, '0').slice(0, 2)}:${String(lesson.endTime).padStart(4, '0').slice(2)}`;
+                }))).sort();
+            %>
+            <% times.forEach(function(time) { %>
+                <tr>
+                    <td><%= time %></td>
+                    <% days.forEach(function(day) { %>
+                        <td>
+                            <% 
+                                const lesson = timetable.find(function(l) { 
+                                    return new Date(l.date).toLocaleDateString("de-DE", { weekday: 'long' }) === day && 
+                                        `${String(l.startTime).padStart(4, '0').slice(0, 2)}:${String(l.startTime).padStart(4, '0').slice(2)} - ${String(l.endTime).padStart(4, '0').slice(0, 2)}:${String(l.endTime).padStart(4, '0').slice(2)}` === time;
+                                }); 
+                            %>
+                            <% if (lesson) { %>
+                                <strong><%= lesson.su ? lesson.su.map(subject => subject.longname).join(', ') : 'Kein Fach angegeben' %></strong><br>
+                                <%= lesson.ro ? lesson.ro.map(room => room.name).join(', ') : 'Kein Raum angegeben' %><br>
+                                <em><%= lesson.code === 'cancelled' ? 'Entfall' : (lesson.info && lesson.info.toLowerCase().includes('vertretung') ? 'Vertretung' : 'Regulär') %></em>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </td>
+                    <% }); %>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
